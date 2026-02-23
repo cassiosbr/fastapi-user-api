@@ -30,5 +30,5 @@ class UserService:
     def get_user_by_email(self, db, email: str):
         user = self.user_repository.get_user_by_email(db, email)
         if not user:
-            raise ValueError("Usuário não encontrado")
+            return None
         return user
