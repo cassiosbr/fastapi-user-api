@@ -26,5 +26,5 @@ def get_all_users(db: Session = Depends(get_db)):
 def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     user = repo.get_user_by_id(db, user_id)
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
     return user
