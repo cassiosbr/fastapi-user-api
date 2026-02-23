@@ -19,7 +19,16 @@ class UserService:
         return self.user_repository.create(db, name, email)
     
     def get_all_users(self, db):
-        return self.user_repository.get_all(db)
+        return self.user_repository.get_all_users(db)
 
+    def get_user_by_id(self, db, user_id: int):
+        user = self.user_repository.get_user_by_id(db, user_id)
+        if not user:
+            raise ValueError("Usuário não encontrado")
+        return user
+    
     def get_user_by_email(self, db, email: str):
-        return self.user_repository.get_by_email(db, email)
+        user = self.user_repository.get_user_by_email(db, email)
+        if not user:
+            raise ValueError("Usuário não encontrado")
+        return user

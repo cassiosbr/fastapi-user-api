@@ -10,7 +10,7 @@ class UserRepository:
         db.refresh(user)
         return user
 
-    def get_by_email(self, db: Session, email: str):
+    def get_user_by_email(self, db: Session, email: str):
         return db.query(User).filter(User.email == email).first()
 
     def get_all_users(self, db: Session):
