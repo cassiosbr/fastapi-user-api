@@ -6,24 +6,26 @@ from app.services.user_service import UserService
 from app.repositories.user_repository import UserRepository
 from app.db.session import get_db
 
-router = APIRouter()
+from app.api.deps import get_current_user
+
+router = APIRouter(prefix="/users", tags=["users"])
 
 repo = UserRepository()
 service = UserService(repo)
 
 @router.post("/", response_model=UserResponse)
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
+def create_user(user: UserCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
     try:
         return service.create_user(db, user.name, user.email)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     
 @router.get("/", response_model=list[UserResponse])
-def get_all_users(db: Session = Depends(get_db)):
+def get_all_users(db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
     return service.get_all_users(db)
 
 @router.get("/{user_id}", response_model=UserResponse)
-def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
+def get_user_by_id(user_id: int, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
     try:
         return service.get_user_by_id(db, user_id)
     except ValueError as e:
