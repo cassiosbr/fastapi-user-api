@@ -16,7 +16,7 @@ service = UserService(repo)
 @router.post("/", response_model=UserResponse)
 def create_user(user: UserCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
     try:
-        return service.create_user(db, user.name, user.email)
+        return service.create_user(db, user.name, user.email, user.password)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     

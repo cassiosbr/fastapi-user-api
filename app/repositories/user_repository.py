@@ -4,8 +4,8 @@ from app.models.user import User
 class UserRepository:
 
     @staticmethod
-    def create(db: Session, name: str, email: str):
-        user = User(name=name, email=email)
+    def create(db: Session, name: str, email: str, hashed_password: str):
+        user = User(name=name, email=email, hashed_password=hashed_password)
         db.add(user)
         db.commit()
         db.refresh(user)
