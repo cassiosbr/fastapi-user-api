@@ -24,6 +24,13 @@ def create_user(user: UserCreate, db: Session = Depends(get_db), current_user: s
 def get_all_users(db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
     return service.get_all_users(db)
 
+    # list comprehension
+    # users = service.get_all_users(db)
+    # return [
+    #     UserResponse(id=user.id, name=user.name, email=user.email)
+    #     for user in users
+    # ]
+
 @router.get("/{user_id}", response_model=UserResponse)
 def get_user_by_id(user_id: int, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
     try:
