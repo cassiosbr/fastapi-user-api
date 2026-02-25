@@ -25,19 +25,20 @@ def login(
     email = form_data.username
     password = form_data.password
     user = service.authenticate_user(db, email, password)
+    
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Credenciais inválidas"
         )
     access_token = create_access_token(
-        data={"sub": form_data.username}
+        data={"sub": user.email, "id": user.id}
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
 
 
-@router.post("/login")
+@router.post("/login_mock")
 def login_mock(form_data: OAuth2PasswordRequestForm = Depends()):
     # Fake auth
     if form_data.username != "admin" or form_data.password != "123456":

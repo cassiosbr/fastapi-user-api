@@ -8,7 +8,7 @@ class UserService:
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
 
-    def create_user(self, db, name: str, email: str, hashed_password: str):
+    def create_user(self, db, name: str, email: str, password: str):
 
         if not name or not email:
             raise ValueError("Nome e email são obrigatórios")
@@ -19,7 +19,7 @@ class UserService:
         if self.get_user_by_email(db, email):
             raise ValueError("Email já existe")
         
-        return self.user_repository.create(db, name, email, pwd_context.hash(hashed_password))
+        return self.user_repository.create(db, name, email, pwd_context.hash(password))
     
     def get_all_users(self, db):
         return self.user_repository.get_all_users(db)
